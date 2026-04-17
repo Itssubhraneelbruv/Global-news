@@ -1,12 +1,23 @@
-from pathlib import Path
-from typing import Optional
+import os
+import json
 import pandas as pd
+from typing import Optional
 from google.cloud import bigquery
-
+from google.oauth2 import service_account
 
 class ArticleService:
-    def __init__(self, project_id: str = "the-w-492104"):
-        self.client = bigquery.Client(project=project_id)
+    def __init__(self, project_id: str = None):
+        project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT", "the-w-492104")
+
+        creds_json = os.environ.get("GOOGLE_CREDENTIALS_JSON")
+
+        if creds_json:
+            creds_info = json.loads(creds_json)
+            credentials = service_account.Credentials.from_service_account_info(creds_info)
+            self.client = bigquery.Client(project=project_id, credentials=credentials)
+        else:
+            self.client = bigquery.Client(project=project_id)
+
         self.df: Optional[pd.DataFrame] = None
 
     def build_query(self, day: str) -> str:
