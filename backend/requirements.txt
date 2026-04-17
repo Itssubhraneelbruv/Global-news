@@ -1,0 +1,13 @@
+flask
+flask-cors
+flask-sock
+pandas
+pyarrow
+google-cloud-bigquery[bqstorage,pandas]
+db-dtypes
+requests
+beautifulsoup4
+trafilatura
+groq
+websockets
+gunicorn
