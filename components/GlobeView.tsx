@@ -101,7 +101,11 @@ export default function GlobeView() {
       }
     }
   }
-
+  function toArrayBuffer(chunk: Uint8Array<ArrayBufferLike>): ArrayBuffer {
+    const buffer = new ArrayBuffer(chunk.byteLength);
+    new Uint8Array(buffer).set(chunk);
+    return buffer;
+  }
   function appendNextAudioChunk() {
     const sourceBuffer = sourceBufferRef.current;
     if (!sourceBuffer) return;
@@ -117,7 +121,7 @@ export default function GlobeView() {
     if (!chunk) return;
 
     try {
-      sourceBuffer.appendBuffer(chunk);
+      sourceBuffer.appendBuffer(toArrayBuffer(chunk));
     } catch (err) {
       console.error("appendBuffer error:", err);
     }
@@ -415,7 +419,7 @@ export default function GlobeView() {
             pointAltitude="size"
             pointRadius={0.38}
             pointColor="color"
-            pointLabel={labelHtml}
+            // pointLabel={labelHtml}
             onPointClick={(point: object) => setSelected(point as Marker)}
             onGlobeClick={(coords: { lat: number; lng: number }) => addMarker(coords)}
             onPolygonClick={(polygon: any) => handleCountryClick(polygon)}
