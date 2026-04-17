@@ -15,7 +15,7 @@ export default function AudioOrb({
   const analyserRef = useRef<AnalyserNode | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
-  const dataRef = useRef<Uint8Array | null>(null);
+  const dataRef = useRef<Uint8Array<ArrayBuffer> | null>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -34,8 +34,9 @@ export default function AudioOrb({
     audioContextRef.current = ctx;
     analyserRef.current = analyser;
     sourceRef.current = source;
-    dataRef.current = new Uint8Array(analyser.frequencyBinCount);
-
+    dataRef.current = new Uint8Array<ArrayBuffer>(
+      new ArrayBuffer(analyser.frequencyBinCount)
+    );
     const resume = () => {
       if (ctx.state === "suspended") ctx.resume();
     };
@@ -66,7 +67,8 @@ export default function AudioOrb({
 
     const draw = (t: number) => {
       const analyser = analyserRef.current;
-      const data = dataRef.current;
+      const data: Uint8Array<ArrayBuffer> | null = dataRef.current;
+
 
       ctx.clearRect(0, 0, size, size);
 
