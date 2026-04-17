@@ -4,10 +4,10 @@ import pandas as pd
 from typing import Optional
 from google.cloud import bigquery
 from google.oauth2 import service_account
-
+from pathlib import Path
 class ArticleService:
     def __init__(self, project_id: str = None):
-        project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT", "the-w-492104")
+        project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT", "the-w-xxxxxx")
 
         creds_json = os.environ.get("GOOGLE_CREDENTIALS_JSON")
 
