@@ -14,7 +14,8 @@ type Marker = {
   size: number;
   color: string;
 };
-
+const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000";
+const WS_BASE = API_BASE.replace(/^http/, "ws");
 
 const starterMarkers: Marker[] = [];
 
@@ -44,7 +45,7 @@ export default function GlobeView() {
     if (previews[url]) return;
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/article-preview", {
+      const res = await fetch(`${API_BASE}/article-preview`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +221,7 @@ export default function GlobeView() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/country-click", {
+      const res = await fetch(`${API_BASE}/country-click`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -277,7 +278,7 @@ export default function GlobeView() {
     setLlmLoading(true);
     initializeStreamingAudio();
 
-    const ws = new WebSocket("ws://127.0.0.1:5000/ws-summary");
+    const ws = new WebSocket(`${WS_BASE}/ws-summary`);
     wsRef.current = ws;
 
     ws.onopen = () => ws.send(JSON.stringify({ urls }));
