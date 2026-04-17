@@ -191,7 +191,7 @@ export default function GlobeView() {
   }
   async function loadDayRows(day: string) {
     try {
-      const res = await fetch("http://127.0.0.1:5000/day-news", {
+      const res = await fetch(`${API_BASE}/day-news`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
