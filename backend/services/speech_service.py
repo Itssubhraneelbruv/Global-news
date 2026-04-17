@@ -2,8 +2,8 @@ import os
 import requests
 from flask import Response, stream_with_context
 
-VOICE_ID = "JBFqnCBsd6RMkjVDRZzb"   # replace with your chosen voice
-MODEL_ID = "eleven_flash_v2_5"      # low-latency model
+VOICE_ID = "JBFqnCBsd6RMkjVDRZzb"
+MODEL_ID = "eleven_flash_v2_5"
 
 class SpeechService:
     def __init__(self):
